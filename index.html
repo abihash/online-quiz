@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz Game | Mini Project</title>
+
+    <!-- ==== CSS Styling ==== -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg,#4facfe,#00f2fe);
+            text-align: center;
+            color: #fff;
+        }
+        header {
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+        }
+        #container {
+            background: rgba(255,255,255,0.15);
+            width: 70%;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .btn, .answerBtn {
+            background: #fff;
+            color: #333;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px;
+        }
+        .btn:hover, .answerBtn:hover {
+            background: #ffe259;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ==== Header ==== -->
+<header>
+    <h1>Online Quiz Game 🎮</h1>
+    <p>Mini Project using HTML, CSS & JavaScript</p>
+</header>
+
+<!-- ==== Main Content ==== -->
+<div id="container">
+    <h2 id="title">Welcome Student! 🎓</h2>
+    <p id="description">Ready to test your knowledge?</p>
+
+    <button class="btn" id="startBtn" onclick="startQuiz()">Start Quiz</button>
+
+    <div id="quizBox" style="display:none;">
+        <h2 id="questionBox"></h2>
+        <div id="answers"></div>
+        <button class="btn" id="nextBtn" style="display:none;" onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div id="resultBox" style="display:none;">
+        <h2 id="resultText"></h2>
+        <button class="btn" onclick="restart()">Play Again</button>
+    </div>
+</div>
+
+<!-- ==== Footer ==== -->
+<footer>
+    © 2026 Online Quiz Mini Project | Designed by YOU
+</footer>
+
+
+<!-- ==== JavaScript Code ==== -->
+<script>
+let questions = [
+    { question: "Which language styles a webpage?", answers: ["HTML","CSS","Java","C++"], correct: "CSS" },
+    { question: "JavaScript is used for?", answers: ["Design","Structure","Interactivity","None"], correct: "Interactivity" },
+    { question: "Tag used for a link?", answers: ["<link>","<a>","<p>","<h1>"], correct: "<a>" },
+    { question: "CSS full form?", answers: ["Creative Style Sheets","Cascading Style Sheets","Center Sheet System","None"], correct: "Cascading Style Sheets" },
+    { question: "HTML full form?", answers: ["Hyper Text Markup Language","High Text Machine Language","Hyper Text Makeup Language","None"], correct: "Hyper Text Markup Language" }
+];
+
+let index = 0, score = 0;
+
+function startQuiz(){
+    document.getElementById("startBtn").style.display="none";
+    document.getElementById("title").textContent="Quiz Started 🚀";
+    document.getElementById("description").style.display="none";
+    document.getElementById("quizBox").style.display="block";
+    loadQuestion();
+}
+
+function loadQuestion(){
+    document.getElementById("questionBox").innerHTML =
+        `${index+1}. ${questions[index].question}`;
+    
+    let btns = "";
+    questions[index].answers.forEach(a=>{
+        btns += `<button class='answerBtn' onclick="checkAns('${a}')">${a}</button>`;
+    });
+    document.getElementById("answers").innerHTML = btns;
+}
+
+function checkAns(ans){
+    if(ans === questions[index].correct) score++;
+    document.getElementById("nextBtn").style.display="block";
+}
+
+function nextQuestion(){
+    index++;
+    if(index < questions.length){
+        loadQuestion();
+        document.getElementById("nextBtn").style.display="none";
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz(){
+    document.getElementById("quizBox").style.display="none";
+    document.getElementById("resultBox").style.display="block";
+    document.getElementById("resultText").textContent =
+        `Your Score: ${score}/${questions.length} 🎉`;
+}
+
+function restart(){
+    index = 0;
+    score = 0;
+    document.getElementById("resultBox").style.display="none";
+    document.getElementById("startBtn").style.display="block";
+    document.getElementById("description").style.display="block";
+    document.getElementById("title").textContent="Welcome Student! 🎓";
+}
+</script>
+
+</body>
+</html>
